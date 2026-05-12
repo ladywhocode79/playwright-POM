@@ -1,0 +1,16 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+ "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node", "@playwright/test"],
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["tests", "playwright.config.ts"]
+}
