@@ -1,17 +1,28 @@
-import {test,expect} from '@playwright/test';
-import { ManagePage } from '../pages/ManagePage.js';
+// Import the custom test and expect from the fixture module, not from Playwright
+// directly, so that pomManager and validUser are available as named fixtures
+import {test} from '../fixtures/pom.fixtures.js';
+
+/**
+ * Login tests — covers successful and failed authentication flows.
+ * All page interactions are delegated to page objects via pomManager,
+ * keeping the spec free of selectors and low-level Playwright calls.
+ */
 test.describe('Login tests', () => {
-    let managePage: ManagePage;
-    test.beforeEach(async ({ page }) => {
-        managePage = new ManagePage(page);
-        await managePage.loginPage.openLoginPage();
+
+    // Happy path: valid credentials should land the user on the secure area
+    test('should login successfully with valid credentials', async ({ pomManager, validUser }) => {
+        await pomManager.loginPage.openLoginPage();
+        // validUser is injected from the fixture; credentials come from test-data JSON
+        await pomManager.loginPage.userLogin(validUser.username, validUser.password);
+        await pomManager.securePage.assertSuccess();
     });
-    test('should login successfully with valid credentials', async () => {
-        await managePage.loginPage.userLogin('tomsmith', 'SuperSecretPassword!');
-        await managePage.securePage.assertSuccess();
-    });
-    test('should fail to login with invalid username', async () => {
-        await managePage.loginPage.userLogin('invalidUser', 'SuperSecretPassword!');
-        await managePage.loginPage.assertFailedUsername();
+
+    // Sad path: an invalid username should show an error banner on the login page
+    test('should fail to login with invalid username', async ({ pomManager }) => {
+        // No need to navigate first — openLoginPage is skipped to test the
+        // error state directly; the app redirects unauthenticated requests to /login
+        await pomManager.loginPage.openLoginPage();
+        await pomManager.loginPage.userLogin('invalidUser', 'SuperSecretPassword!');
+        await pomManager.loginPage.assertFailedUsername();
     });
 });
