@@ -1,6 +1,6 @@
 # Playwright POM Test Suite
 
-![Tests](https://github.com/<owner>/<repo>/actions/workflows/playwright.yml/badge.svg)
+![Tests](https://github.com/ladywhocode79/playwright-POM/actions/workflows/playwright.yml/badge.svg)
 
 A **Page Object Model (POM)** test automation suite built with Playwright and TypeScript. This project demonstrates best practices for organizing UI tests using the POM pattern, with shared fixtures, reusable selectors, and clean separation of concerns.
 
