@@ -10,12 +10,11 @@ import {test} from '../fixtures/pom.fixtures.js';
 test.describe('Login tests', () => {
 
     // Happy path: valid credentials should land the user on the secure area
-    test('should login successfully with valid credentials', async ({ pomManager, validUser }) => {
+    test('should login successfully with valid credentials', async ({ pomManager, valid_credentials }) => {
         await pomManager.loginPage.openLoginPage();
-        // validUser is injected from the fixture; credentials come from test-data JSON
-        await pomManager.loginPage.userLogin(validUser.username, validUser.password);
+        await pomManager.loginPage.userLogin(valid_credentials.username, valid_credentials.password);
         await pomManager.securePage.assertSuccess();
-    });
+    }); 
 
     // Sad path: an invalid username should show an error banner on the login page
     test('should fail to login with invalid username', async ({ pomManager }) => {
